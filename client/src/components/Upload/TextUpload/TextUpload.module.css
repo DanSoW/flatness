@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.upload_image_wrapper {
+  cursor: pointer;
+  width: 224px;
+  height: 168px;
+  margin-top: 8px;
+  font-family: "Futura PT";
+  font-style: "normal";
+  font-weight: "450";
+  font-size: "18px";
+  line-height: "150%";
+  letter-spacing: "0.05em";
+  color: "#424041";
+  text-transform: "none";
+  border: 2px dashed #000000;
+  border-radius: 0px;
+  background-color: transparent;
+}
+.upload_image_wrapper span:hover {
+  cursor: pointer;
+}
+
+.image-wrapper {
+  margin-top: 8px;
+  display: grid;
+  grid-auto-flow: column;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.div-upload_image_wrapper {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 25px;
+  width: 224px;
+  height: 168px;
+  grid-template-columns: repeat(auto-fit, 16em);
+}
+
+.upload_image {
+  cursor: pointer;
+  width: 224px;
+  height: 168px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0px;
+  border: 2px solid #000000;
+}

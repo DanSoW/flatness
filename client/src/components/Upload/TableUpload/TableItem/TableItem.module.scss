@@ -1,0 +1,39 @@
+@import "../../../../styles/variables.scss";
+
+.content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: $preview-block-width;
+    height: $preview-block-height;
+
+    border-radius: 2px;
+    border: 1px solid black;
+}
+
+.tableBody {
+    transform-origin: top left;
+}
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    gap: 4px;
+}
+
+.rows {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 4px;
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 4px;
+    }
+}

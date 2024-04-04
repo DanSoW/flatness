@@ -1,0 +1,133 @@
+stages:
+  - backup-db
+  - clean-vm
+  - deploy-app
+  - restore-db
+
+# ------------------- s-01 -------------------
+
+
+#dump_db_s_01:
+#  stage: backup-db
+#  script:
+#    - echo "Backup all database"
+#    - docker exec -t postgres pg_dumpall -c -U postgres > /flatness/backup/dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql || true
+#  tags:
+#    - s-01
+#  when: manual
+
+clear_s_01:
+  stage: clean-vm
+  script:
+    - echo "Останавливаем все контейнеры"
+    - docker stop $(docker ps -q) || true
+    - echo "Удаляем все контейнеры"
+    - docker rm $(docker ps -aq) || true
+    - echo "Очищаем докер"
+    - yes | docker system prune -af || true
+    - echo "Удаляем старые копии базы данных"
+    - ls -t /flatness/backup/ | tail -n +6 | xargs -I {} rm -rf /flatness/backup/{}
+  tags:   
+    - s-01
+  when: manual
+
+up_app_s_01:
+  stage: deploy-app
+  script:
+    - echo $TEST
+    - echo "Добавляем сеть если её нет"
+    - if ! docker network inspect flatness &> /dev/null; then
+        docker network create flatness;
+      fi
+    - echo "Сначало собираем образа, потом запускаем сервис"
+    - docker-compose -f docker-compose-development.yml build --no-cache
+    - docker-compose -f docker-compose-development.yml up -d 
+    - docker ps
+    - sleep 5
+    - echo "Смотрим логи"
+    - (docker logs -n50 postgres) || true
+    - (docker logs -n50 server) || true
+    - (docker logs -n50 client) || true
+    - echo "Чистим после сборки"
+    - docker builder prune -a -f
+    - docker image prune -f
+    - echo "Закончили "
+  tags:
+    - s-01
+  environment:
+    name: s-01
+  when: manual
+
+
+#restore_db_s_01:
+#  stage: restore-db
+#  script:
+#    - echo "Backup all database"
+#    - cat "$(ls -t /flatness/backup/* | head -n 1)" | docker exec -i postgres psql -U postgres || true
+#  tags:   
+#    - s-01
+#  when: manual
+
+# ------------------- main -------------------
+
+
+
+#dump_db_main:
+#  stage: backup-db
+#  script:
+#    - echo "Backup all database"
+#    - docker exec -t postgres pg_dumpall -c -U postgres > /flatness/backup/dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql || true
+#  tags:
+#    - main
+#  when: manual
+
+clear_main:
+  stage: clean-vm
+  script:
+    - echo "Останавливаем все контейнеры"
+    - docker stop $(docker ps -q) || true
+    - echo "Удаляем все контейнеры"
+    - docker rm $(docker ps -aq) || true
+    - echo "Очищаем докер"
+    - yes | docker system prune -af || true
+    - echo "Удаляем старые копии базы данных"
+    - ls -t /flatness/backup/ | tail -n +6 | xargs -I {} rm -rf /flatness/backup/{}
+  tags:   
+    - main
+#  when: manual
+
+up_app_main:
+  stage: deploy-app
+  script:
+    - echo $TEST
+    - echo "Добавляем сеть если её нет"
+    - if ! docker network inspect flatness &> /dev/null; then
+        docker network create flatness;
+      fi
+    - echo "Сначало собираем образа, потом запускаем сервис"
+    - docker-compose -f docker-compose-production.yml build --no-cache
+    - docker-compose -f docker-compose-production.yml up -d 
+    - docker ps
+    - sleep 5
+    - echo "Смотрим логи"
+    - (docker logs -n50 postgres) || true
+    - (docker logs -n50 server) || true
+    - (docker logs -n50 client) || true
+    - echo "Чистим после сборки"
+    - docker builder prune -a -f
+    - docker image prune -f
+    - echo "Закончили "
+  tags:
+    - main
+  environment:
+    name: main
+#  when: manual
+
+#restore_db_main:
+#  stage: restore-db
+#  script:
+#    - echo "Backup all database"
+#    - cat "$(ls -t /flatness/backup/* | head -n 1)" | docker exec -i postgres psql -U postgres || true
+#  tags:   
+#    - main
+#  when: manual

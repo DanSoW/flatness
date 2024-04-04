@@ -1,0 +1,9 @@
+.container {
+    width: calc(100vw - 275px);
+    height: 400px;
+    overflow-y: auto;
+
+    background-color: white;
+    border-radius: 2px;
+    padding: 4px;
+}

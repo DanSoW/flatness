@@ -1,0 +1,179 @@
+@import "../../styles/colors";
+
+.textH {
+    color: #333;
+    font-family: Futura PT;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-top: 0px;
+    margin-left: 22px;
+    margin-right: 22px;
+    margin-bottom: 124px;
+    height: max-content;
+
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-left: 283px;
+
+    @media only screen and (max-width: 1280px) {
+        padding-left: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .doorList {
+        margin-top: 0;
+        width: 100%;
+
+        @media only screen and (max-width: 1280px) {
+            width: max-content;
+        }
+    }
+}
+
+.control {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    width: max-content;
+    align-self: flex-end;
+
+    p {
+        transition: all 0.4s;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    p:hover {
+        cursor: pointer;
+
+        color: $basic_hover;
+    }
+}
+
+.controlInversion {
+    @media (max-width: 992px) {
+        margin-top: 23px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    width: max-content;
+
+    p {
+        transition: all 0.4s;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    p:hover {
+        cursor: pointer;
+
+        color: $basic_hover;
+    }
+}
+
+.doorList {
+    display: flex;
+    flex-direction: column;
+    gap: 57px;
+    min-height: 1000px;
+}
+
+.doorBtn {
+    margin-top: 72px;
+    align-self: center;
+}
+
+.tapes {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    border: 1px rgb(106, 106, 255) solid;
+    padding: 12px;
+}
+
+.tapesList {
+    h3 {
+        padding: 0;
+        margin: 0;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    
+    border: 1px rgb(106, 106, 255) solid;
+    padding: 12px;
+}
+
+.screens {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    height: 200px;
+    padding: 16px;
+    border-radius: 2px;
+    border: 1px rgb(106, 106, 255) solid;
+
+    .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 100%;
+    }
+
+    .screensList {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 14px;
+        width: 80vw;
+        height: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 10px;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: silver;
+            border-radius: 2px;
+        }
+
+        .element {
+            height: 100%;
+        }
+    }
+}

@@ -1,0 +1,62 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    border-radius: 2px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 300px;
+    padding-top: 19px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.contentItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 99vw;
+    height: 99vh;
+    position: relative;
+    overflow: auto;
+}
+
+
+.element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.swiperContainer {
+    width: 100vw;
+    height: max-content;
+}

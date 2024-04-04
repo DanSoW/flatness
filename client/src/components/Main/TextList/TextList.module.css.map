@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,UAAU,CAAC;EACP,KAAK,EAAE,mBAAmB;EAC1B,MAAM,EAAE,KAAK;EACb,UAAU,EAAE,MAAM;CACrB",
+    "sources": [
+        "TextList.module.scss"
+    ],
+    "names": [],
+    "file": "TextList.module.css"
+}

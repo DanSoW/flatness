@@ -1,0 +1,99 @@
+@import './fonts';
+@import './colors';
+
+body {
+    background: #FFF;
+
+    overflow-x: hidden;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* ------------------- */
+/* Настройка курсора */
+p {
+    cursor: default;
+}
+
+span {
+    cursor: default;
+}
+
+h2 {
+    cursor: default;
+}
+
+button {
+    p {
+        cursor: pointer;
+    }
+}
+
+/* ------------------- */
+
+a {
+    transition: all 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        color: #3d8baf;
+    }
+}
+
+.emoji {
+    position: relative;
+
+    svg {
+        font-size: 1.5rem;
+        color: #080420;
+        cursor: pointer;
+    }
+
+
+}
+
+.swiper-pagination {
+    position: relative !important;
+    margin-top: 25px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-pagination-bullet {
+    background: #C3C3C3;
+    height: 21px;
+    width: 21px;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background-color: #585858;
+    height: 10px;
+    width: 10px;
+}
+
+.swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
+    background: #C3C3C3 !important;
+    opacity: 1;
+    height: 8px !important;
+    width: 8px !important;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+    width: max-content !important;
+}
+
+.pagination .selected {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: #fff !important;
+
+    height: 25px;
+    width: 25px;
+}

@@ -1,0 +1,36 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: space-between;
+    width: 256px;
+    height: 100%;
+    padding: 12px;
+    background-color: purple;
+    background-color: #90d3df;
+    border-radius: 2px;
+
+    p {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
+}
+
+.contentReverse {
+    display: flex;
+    flex-direction: row-reverse;
+}

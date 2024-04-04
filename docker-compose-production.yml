@@ -1,0 +1,127 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    container_name: postgres
+    environment:
+      POSTGRES_DB: flatness
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234567890
+      PGDATA: /var/lib/postgresql/data/
+      POSTGRES_AUTH_METHOD: scram-sha-256
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h 127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: server
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.server_https.redirectscheme.scheme=https
+      - traefik.http.routers.server.entrypoints=web
+      - traefik.http.routers.server.middlewares=server_https@docker
+      - traefik.http.routers.server.rule=Host(`api.flatness.ru`)
+      - traefik.http.routers.server_https.entrypoints=websecure
+      - traefik.http.routers.server_https.rule=Host(`api.flatness.ru`)
+      - traefik.http.routers.server_https.tls=true
+      - traefik.http.services.server.loadbalancer.server.port=5000
+      - traefik.http.routers.server_https.tls.certresolver=le
+    healthcheck:
+      test: ["CMD", "curl",  "http://localhost:5000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: client
+    labels:
+      - traefik.enable=true 
+      - traefik.http.middlewares.client_https.redirectscheme.scheme=https
+      - traefik.http.routers.client.entrypoints=web
+      - traefik.http.routers.client.middlewares=client_https@docker
+      - traefik.http.routers.client.rule=Host(`client.flatness.ru`)
+      - traefik.http.routers.client_https.entrypoints=websecure
+      - traefik.http.routers.client_https.rule=Host(`client.flatness.ru`)
+      - traefik.http.routers.client_https.tls=true
+      - traefik.http.services.client.loadbalancer.server.port=80
+      - traefik.http.routers.client_https.tls.certresolver=le
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-S", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      server:
+        condition: service_healthy
+
+
+
+  landing:
+    image: nginx:latest
+    restart: unless-stopped
+    container_name: "landing"
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.landing_https.redirectscheme.scheme=https
+      - traefik.http.routers.landing.entrypoints=web
+      - traefik.http.routers.landing.middlewares=landing_https@docker
+      - traefik.http.routers.landing.rule=Host(`flatness.ru`)
+      - traefik.http.routers.landing_https.entrypoints=websecure
+      - traefik.http.routers.landing_https.rule=Host(`flatness.ru`)
+      - traefik.http.routers.landing_https.tls=true
+      - traefik.http.routers.landing_https.tls.certresolver=le
+
+
+  traefik:
+    image: traefik:v2.2
+    restart: unless-stopped
+    container_name: "traefik"
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --accesslog=true
+      - --certificatesresolvers.le.acme.email=info@flatness.ru
+      - --certificatesresolvers.le.acme.storage=acme.json
+      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.traefik_https.redirectscheme.scheme=https
+      - traefik.http.routers.traefik.entrypoints=web
+      - traefik.http.routers.traefik.middlewares=traefik_https@docker
+      - traefik.http.routers.traefik.rule=Host(`traefik.flatness.ru`)
+      - traefik.http.routers.traefik_https.entrypoints=websecure
+      - traefik.http.routers.traefik_https.rule=Host(`traefik.flatness.ru`)
+      - traefik.http.routers.traefik_https.tls=true
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - traefik.http.routers.traefik_https.tls.certresolver=le
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /flatness/acme.json:/acme.json:rw
+
+networks:
+  default:
+    external:
+      name: flatness 

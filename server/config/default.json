@@ -1,0 +1,43 @@
+{
+  "port": "5000",
+  "database": {
+    "user": "postgres",
+    "host": "postgres",
+    "database": "flatness",
+    "port": "5432"
+  },
+  "smtp": {
+    "host": "smtp.mail.ru",
+    "port": "587",
+    "user": ""
+  },
+  "filter_image": {
+    "url": "public\\default.png"
+  },
+  "admin_list": [],
+  "url": {
+    "client": "",
+    "management": "",
+    "api": ""
+  },
+  "cookie": {
+    "domain": "localhost",
+    "path": "/",
+    "secure": false
+  },
+  "log": {
+    "sequelize": false
+  },
+  "doc": {
+    "swagger2": false
+  },
+  "test": {
+    "init_db": true
+  },
+  "youtube": {
+    "link": "https://www.youtube.com/embed/"
+  },
+  "nanoid": {
+    "size": 21
+  }
+}
